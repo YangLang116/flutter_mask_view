@@ -1,7 +1,7 @@
 name: flutter_mask_view
 description: A Flutter plugin to show mask
 version: 1.0.0
-homepage:
+homepage: https://github.com/YangLang116/flutter_mask_view
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
