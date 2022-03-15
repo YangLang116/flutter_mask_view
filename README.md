@@ -6,18 +6,18 @@ create mask view for your application, like image progress bar, or guide view fo
 
 ## Features
 
-- show height light mask for newer
+- show height-light mask for newer
 - create image progress bar
 
 ## Usage
 
-Import the packages:
+### Import the packages:
 
 ```dart
 import 'package:flutter_mask_view/flutter_mask_view.dart';
 ```
 
-show height light mask for newer
+### show height-light mask for newer:
 
 ```dart
  Scaffold(
@@ -68,12 +68,94 @@ more:
                 ..style = PaintingStyle.stroke;
               canvas.drawCircle(Offset(150, 150), 50, paint);
             },
-            //should repaint
+            //should repaint, default 'return false'
             rePaintDelegate: (CustomPainter oldDelegate){
               return false;
             },
           )
 ```
 
+Display
 
+<img src="https://cdn.jsdelivr.net/gh/YangLang116/picture_storage/flutter_mask_view_1.jpg" width="300" />
 
+### create image progress bar:
+
+```dart
+      ImageProgressMaskView(
+          size: Size(360, 840),
+          //background image
+          backgroundRes: 'images/bg.png',
+          //current progress
+          progress: 0.5,
+          //mask shape, built-in:
+          //PathProviders.sRecPathProvider: wave progress bar
+          //PathProviders.createWaveProvider: rect clip progressbar
+          
+          //you can create more shape
+          pathProvider: PathProviders.createWaveProvider(60, 100),
+        ),
+      )
+```
+
+`PathProviders.sRecPathProvider`:
+
+<img src="https://cdn.jsdelivr.net/gh/YangLang116/picture_storage/flutter_mask_view_3.jpg" width="300" />
+
+`PathProviders.createWaveProvider`:
+
+<img src="https://cdn.jsdelivr.net/gh/YangLang116/picture_storage/flutter_mask_view_2.jpg" width="300" />
+
+for animation:
+
+```dart
+class MaskTestApp extends StatefulWidget {
+  const MaskTestApp({Key? key}) : super(key: key);
+
+  @override
+  State<MaskTestApp> createState() => _MaskTestAppState();
+}
+
+class _MaskTestAppState extends State<MaskTestApp>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller =
+        AnimationController(duration: Duration(seconds: 5), vsync: this);
+    _controller.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return ImageProgressMaskView(
+              size: Size(360, 840),
+              backgroundRes: ImagesRes.IMG,
+              progress: _controller.value,
+              pathProvider: PathProviders.createWaveProvider(60, 40),
+              rePaintDelegate: (_) => true,
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+```
+
+Result:
+
+<img src="https://cdn.jsdelivr.net/gh/YangLang116/picture_storage/flutter_mask_view_4.webp" width="300" />

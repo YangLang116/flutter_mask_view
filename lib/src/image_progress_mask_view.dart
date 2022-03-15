@@ -19,13 +19,17 @@ class PathProviders {
       double waveTotalWidth = size.width * 3;
       double top = size.height * (1 - progress);
       Path path = Path()
-        ..moveTo(size.width * 2, top)
+        ..moveTo(size.width, top)
         ..lineTo(size.width, size.height)
         ..lineTo(0, size.height)
-        ..lineTo(-size.width, top);
+        ..lineTo(-2 * size.width, top);
       //draw bezier
       double waveHeight = (1 - progress) * maxWaveHeight;
-      double drawWaveWidth = 0;
+      //move wave
+      double leftOffset = 2 * size.width * progress;
+      path.lineTo(-2 * size.width + leftOffset, top);
+
+      double drawWaveWidth = leftOffset;
       while (drawWaveWidth < waveTotalWidth) {
         path.relativeQuadraticBezierTo(
           waveWidth / 2,
@@ -46,7 +50,7 @@ class PathProviders {
   }
 
   //rec progress
-  static Path sRecPathProvide(Size size, double progress) {
+  static Path sRecPathProvider(Size size, double progress) {
     double top = size.height * (1 - progress);
     return Path()
       ..moveTo(0, top)
