@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mask_view/src/view_base.dart';
 
 ///draw call back
 typedef OnDraw = void Function(Canvas canvas, Size size);
 
 ///custom clip path
 typedef PathBuilder = Path Function(Size size);
-
-///need repaint
-typedef ShouldRePaintDelegate = bool Function(CustomPainter oldDelegate);
 
 class HeightLightMaskView extends StatelessWidget {
   ///view size
@@ -48,6 +46,7 @@ class HeightLightMaskView extends StatelessWidget {
     return RepaintBoundary(
       child: CustomPaint(
         size: maskViewSize,
+        isComplex: true,
         painter: _HeightLightPainter(this),
       ),
     );
@@ -60,16 +59,19 @@ class _HeightLightPainter extends CustomPainter {
 
   final Paint heightLightPaint;
 
+  final Paint layerPaint;
+
   _HeightLightPainter(this.config)
       : heightLightPaint = Paint()
           ..isAntiAlias = true
           ..blendMode = BlendMode.srcIn
           ..color = config.color
-          ..style = PaintingStyle.fill;
+          ..style = PaintingStyle.fill,
+        layerPaint = Paint();
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.saveLayer(Offset.zero & size, Paint());
+    canvas.saveLayer(Offset.zero & size, layerPaint);
     canvas.drawColor(config.backgroundColor, BlendMode.src);
     if (config.pathBuilder != null) {
       Path path = config.pathBuilder!(size);
