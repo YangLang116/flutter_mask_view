@@ -109,13 +109,6 @@ Display
 for animation:
 
 ```dart
-class MaskTestApp extends StatefulWidget {
-  const MaskTestApp({Key? key}) : super(key: key);
-
-  @override
-  State<MaskTestApp> createState() => _MaskTestAppState();
-}
-
 class _MaskTestAppState extends State<MaskTestApp>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
@@ -137,16 +130,30 @@ class _MaskTestAppState extends State<MaskTestApp>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Center(
         child: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
-            return ImageProgressMaskView(
-              size: Size(360, 840),
-              backgroundRes: ImagesRes.IMG,
-              progress: _controller.value,
-              pathProvider: PathProviders.createWaveProvider(60, 40),
-              rePaintDelegate: (_) => true,
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                ImageProgressMaskView(
+                  size: Size(300, 300),
+                  backgroundRes: ImagesRes.IMG,
+                  progress: _controller.value,
+                  pathProvider: PathProviders.createWaveProvider(60, 40),
+                  rePaintDelegate: (_) => true,
+                ),
+                Text(
+                  '${(_controller.value * 100).toInt()} %',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                )
+              ],
             );
           },
         ),
@@ -158,4 +165,10 @@ class _MaskTestAppState extends State<MaskTestApp>
 
 Result:
 
+case 1: 
+
 <img src="https://cdn.jsdelivr.net/gh/YangLang116/picture_storage/flutter_mask_view_4.webp" width="300" />
+
+case 2: (png)
+
+<img src="https://cdn.jsdelivr.net/gh/YangLang116/picture_storage/flutter_mask_view_6.gif" width="300" />

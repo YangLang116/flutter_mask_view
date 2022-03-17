@@ -1,6 +1,6 @@
 name: flutter_mask_view
-description: A Flutter plugin to show mask
-version: 1.0.1
+description: A Flutter plugin to show mask, you can create height-light mask view or image progress view with it.
+version: 1.0.2
 homepage: https://github.com/YangLang116/flutter_mask_view
 
 environment:

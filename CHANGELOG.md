@@ -6,3 +6,7 @@
 
 * add height-light view
 * add image progress view
+
+## 1.0.2
+
+* update readme
